@@ -3,12 +3,19 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import clienteAxios from "../config/axios";
 
 
-const register = async (username, email, password) => {
+const register = async ({name, email, password}) => {
     try {
-        const response = await clienteAxios.post('/api/usuarios', datos)
-
+        console.log('register');
+        const response = await clienteAxios.post('register', {name, email, password})
+        console.log(response.data);
+        const token = await AsyncStorage.setItem('token', response.data.access_token);
+        return {
+            isLoggedIn: true,
+            token
+        };
     } catch (error) {
-        console.log(error.response);
+        console.log(error.response.data);
+        throw error.response.data
     }
 };
 
@@ -18,8 +25,6 @@ const login = async ({ email, password }) => {
         const token = await AsyncStorage.setItem('token', response.data.access_token);
         return {
             isLoggedIn: true,
-            email: response.data.email,
-            userName: response.data.userName,
             token
         };
     } catch (error) {

@@ -12,6 +12,8 @@ export const checkAuth = createAsyncThunk('userAuth/checkAuth', async () => {
 
 export const login = createAsyncThunk('userAuth/login', authService.login);
 
+export const register = createAsyncThunk('userAuth/register', authService.register);
+
 export const logout = createAsyncThunk('userAuth/logout', authService.logout);
 
 const startLoading = (state) => {
@@ -55,6 +57,18 @@ const authSlice = createSlice({
             });
         },
         [login.rejected]: receiveError,
+
+        [register.pending]: startLoading,
+        [register.fulfilled]: (state, { payload }) => {
+            const { isLoggedIn, token } = payload;
+
+            Object.assign(state, {
+                loading: false,
+                isLoggedIn,
+                token,
+            });
+        },
+        [register.rejected]: receiveError,
 
         [logout.pending]: startLoading,
         [logout.fulfilled]: (state) =>

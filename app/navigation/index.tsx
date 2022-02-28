@@ -12,6 +12,8 @@ import LoginScreen from '../screens/auth/LoginScreen';
 import RegisterScreen from '../screens/auth/RegisterScreen';
 import { selectIsLoggedIn } from '../redux/slices/authSlice';
 import Dashboard from '../screens/Dashboard';
+import StartScreen from '../screens/auth/StartScreen';
+import ResetPasswordScreen from '../screens/auth/ResetPasswordScreen';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -36,9 +38,11 @@ function RootNavigator() {
         <Stack.Screen name="dashboard" component={Dashboard} />
       </Stack.Navigator>
     ) : (
-      <Stack.Navigator initialRouteName="login" screenOptions={{ headerShown: false }}>
+      <Stack.Navigator initialRouteName="start" screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="start" component={StartScreen} />
         <Stack.Screen name="login" component={LoginScreen} />
         <Stack.Screen name="register" component={RegisterScreen} />
+        <Stack.Screen name="resetPassword" component={ResetPasswordScreen} />
       </Stack.Navigator>
     )
   );
