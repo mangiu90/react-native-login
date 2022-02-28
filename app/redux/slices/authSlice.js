@@ -1,4 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
+import Toast from 'react-native-toast-message';
+
 import authService from "../../services/auth.service";
 import userService from "../../services/user.service";
 
@@ -22,9 +24,20 @@ const startLoading = (state) => {
 }
 
 const receiveError = (state, action) => {
-    // console.log(action.error.message);
+    // console.log(action);
+    let error = 'Ups hubo algun error!';
+    if (typeof action.error.message == 'string' && action.error.message != '') {
+        error = action.error.message
+    }
+
     state.loading = false;
-    state.error = action.error.message;
+    state.error = 'error';
+
+    Toast.show({
+        type: 'error',
+        text1: 'ERROR',
+        text2: error
+    });
 }
 
 const initialState = {
@@ -82,7 +95,7 @@ const authSlice = createSlice({
 
 export const { setSignIn, setSignOut } = authSlice.actions;
 
-export const selectLoading= (state) => state.userAuth.loading;
+export const selectLoading = (state) => state.userAuth.loading;
 export const selectIsLoggedIn = (state) => state.userAuth.isLoggedIn;
 export const selectCurrentUser = (state) => state.userAuth.currentUser;
 

@@ -4,6 +4,7 @@ import userService from '../services/user.service';
 import { checkAuth, logout, selectCurrentUser } from '../redux/slices/authSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect } from 'react';
+import Toast from 'react-native-toast-message';
 
 export default function Dashboard() {
   const dispatch = useDispatch();
@@ -35,6 +36,14 @@ export default function Dashboard() {
     }
   }
 
+  const showToast = () => {
+    Toast.show({
+      type: 'success',
+      text1: 'Hello',
+      text2: 'This is some something 👋'
+    });
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Dashboard</Text>
@@ -51,6 +60,9 @@ export default function Dashboard() {
       </TouchableOpacity>
       <TouchableOpacity onPress={getToken} style={styles.btn}>
         <Text style={styles.text}>getToken</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={showToast} style={styles.btn}>
+        <Text style={styles.text}>Show toast</Text>
       </TouchableOpacity>
     </View>
   )
