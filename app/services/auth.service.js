@@ -5,9 +5,7 @@ import clienteAxios from "../config/axios";
 
 const register = async ({name, email, password}) => {
     try {
-        console.log('register');
         const response = await clienteAxios.post('register', {name, email, password})
-        console.log(response.data);
         const token = await AsyncStorage.setItem('token', response.data.access_token);
         return {
             isLoggedIn: true,

@@ -82,6 +82,7 @@ const authSlice = createSlice({
 
 export const { setSignIn, setSignOut } = authSlice.actions;
 
+export const selectLoading= (state) => state.userAuth.loading;
 export const selectIsLoggedIn = (state) => state.userAuth.isLoggedIn;
 export const selectCurrentUser = (state) => state.userAuth.currentUser;
 
