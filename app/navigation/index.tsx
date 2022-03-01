@@ -14,6 +14,8 @@ import { selectIsLoggedIn } from '../redux/slices/authSlice';
 import Dashboard from '../screens/Dashboard';
 import StartScreen from '../screens/auth/StartScreen';
 import ResetPasswordScreen from '../screens/auth/ResetPasswordScreen';
+import MovementsScreen from '../screens/movements/MovementsScreen';
+import MovementsCreate from '../screens/movements/MovementsCreate';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -35,7 +37,9 @@ function RootNavigator() {
   return (
     isLoggedIn ? (
       <Stack.Navigator initialRouteName="dashboard">
-        <Stack.Screen name="dashboard" component={Dashboard} />
+        <Stack.Screen name="dashboard" component={Dashboard} options={{ headerShown: false }}/>
+        <Stack.Screen name="movements" component={MovementsScreen} options={{ title: 'Movimientos' }} />
+        <Stack.Screen name="movement/create" component={MovementsCreate} options={{ title: 'Crear Movimiento' }} />
       </Stack.Navigator>
     ) : (
       <Stack.Navigator initialRouteName="start" screenOptions={{ headerShown: false }}>

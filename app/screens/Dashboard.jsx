@@ -5,10 +5,11 @@ import { checkAuth, logout, selectCurrentUser } from '../redux/slices/authSlice'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect } from 'react';
 import Toast from 'react-native-toast-message';
+import movementsService from '../services/movements.service';
 
-export default function Dashboard() {
+export default function Dashboard({ navigation }) {
   const dispatch = useDispatch();
-  const {name, email} = useSelector(selectCurrentUser) ?? {name:'', email:''};
+  const { name, email } = useSelector(selectCurrentUser) ?? { name: '', email: '' };
 
   useEffect(() => {
     dispatch(checkAuth());
@@ -30,10 +31,25 @@ export default function Dashboard() {
     try {
       const value = await AsyncStorage.getItem('token');
       console.log(value);
-      
-    } catch(e) {
+
+    } catch (e) {
       // error reading value
     }
+  }
+
+  const getMovements = async () => {
+    const res = await movementsService.getMovements();
+    console.log(res);
+  }
+
+  const createMovement = async () => {
+    const res = await movementsService.createMovement({
+      category_id: 1,
+      type: 'ENTRY',
+      amount: 1000,
+      description: 'prueba',
+    });
+    console.log(res);
   }
 
   const showToast = () => {
@@ -52,7 +68,20 @@ export default function Dashboard() {
       <TouchableOpacity onPress={handleLogout} style={styles.btn}>
         <Text style={styles.text}>Logout</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={getCurrentUser} style={styles.btn}>
+      <TouchableOpacity onPress={() => navigation.navigate('movements')} style={styles.btn}>
+        <Text style={styles.text}>Movimientos</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={createMovement} style={styles.btn}>
+        <Text style={styles.text}>createMovement</Text>
+      </TouchableOpacity>
+
+      {/* <TouchableOpacity onPress={getMovements} style={styles.btn}>
+        <Text style={styles.text}>getMovements</Text>
+      </TouchableOpacity> */}
+
+
+      {/* <TouchableOpacity onPress={getCurrentUser} style={styles.btn}>
         <Text style={styles.text}>Current User</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={getUsers} style={styles.btn}>
@@ -63,7 +92,7 @@ export default function Dashboard() {
       </TouchableOpacity>
       <TouchableOpacity onPress={showToast} style={styles.btn}>
         <Text style={styles.text}>Show toast</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   )
 }
