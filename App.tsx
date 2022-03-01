@@ -1,8 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider } from 'react-redux';
 import Toast from 'react-native-toast-message';
+import { Provider as PaperProvider } from 'react-native-paper';
 
 import useCachedResources from './app/hooks/useCachedResources';
 import useColorScheme from './app/hooks/useColorScheme';
@@ -16,13 +16,15 @@ export default function App() {
   if (!isLoadingComplete) {
     return null;
   }
-  
+
   return (
     <Provider store={store}>
       <SafeAreaProvider>
-        <Navigation colorScheme={colorScheme} />
-        <StatusBar style="auto" />
-        <Toast />
+        <PaperProvider>
+          <Navigation colorScheme={colorScheme} />
+          <StatusBar style="auto" />
+          <Toast />
+        </PaperProvider>
       </SafeAreaProvider>
     </Provider>
   );
