@@ -49,6 +49,15 @@ const authSlice = createSlice({
         },
         [getMovements.rejected]: receiveError,
 
+        [createMovement.pending]: startLoadingMovements,
+        [createMovement.fulfilled]: (state, { payload }) => {
+            Object.assign(state, {
+                loadingMovements: false,
+                // movements: [payload, ...state.movements]
+            });
+        },
+        [createMovement.rejected]: receiveError,
+
         [getBalance.pending]: startLoadingMovements,
         [getBalance.fulfilled]: (state, { payload }) => {
             Object.assign(state, {
