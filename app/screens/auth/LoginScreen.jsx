@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { login } from '../../redux/slices/authSlice';
+import { login, selectLoading } from '../../redux/slices/authSlice';
 import { theme } from '../../config/theme'
 import { emailValidator } from '../../helpers/emailValidator';
 import { passwordValidator } from '../../helpers/passwordValidator';
@@ -17,6 +17,8 @@ import Spinner from '../../components/Spinner';
 
 export default function LoginScreen({ navigation }) {
   const dispatch = useDispatch();
+
+  const loading = useSelector(selectLoading);
 
   const [email, setEmail] = useState({ value: 'admin@admin.com', error: '' })
   const [password, setPassword] = useState({ value: 'password', error: '' })
@@ -35,7 +37,7 @@ export default function LoginScreen({ navigation }) {
 
   return (
     <>
-      <Spinner />
+      <Spinner loading={loading} />
 
       <Background>
         <BackButton goBack={navigation.goBack} />

@@ -1,11 +1,7 @@
 import { StyleSheet, View } from 'react-native'
 import { ActivityIndicator } from 'react-native-paper'
-import { useSelector } from 'react-redux';
-import { selectLoading } from '../redux/slices/authSlice';
 
-export default function Spinner() {
-    const loading = useSelector(selectLoading);
-
+export default function Spinner({loading}) {
     return (
         loading ? (
             <ActivityIndicator size="large" style={styles.spinner} />
