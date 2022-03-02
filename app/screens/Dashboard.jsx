@@ -72,9 +72,9 @@ export default function Dashboard({ navigation }) {
         <Text style={styles.text}>Movimientos</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={createMovement} style={styles.btn}>
+      {/* <TouchableOpacity onPress={createMovement} style={styles.btn}>
         <Text style={styles.text}>createMovement</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
       {/* <TouchableOpacity onPress={getMovements} style={styles.btn}>
         <Text style={styles.text}>getMovements</Text>
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    // justifyContent: 'center',
+    justifyContent: 'center',
   },
   title: {
     fontSize: 20,

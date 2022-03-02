@@ -1,10 +1,13 @@
-import { useEffect, useState } from 'react'
-import { FlatList, Pressable, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useEffect } from 'react'
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { AntDesign } from '@expo/vector-icons';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+
+import { getBalance, getMovements, selectBalance, selectLoadingMovements, selectMovements } from '../../redux/slices/movementsSlice';
 
 import Spinner from '../../components/Spinner';
-import { getBalance, getMovements, selectBalance, selectLoadingMovements, selectMovements } from '../../redux/slices/movementsSlice';
+import MovementsList from '../../components/movementsList';
 
 const MovementsScreen = ({ navigation }) => {
     const dispatch = useDispatch();
@@ -12,6 +15,7 @@ const MovementsScreen = ({ navigation }) => {
     const loadingMovements = useSelector(selectLoadingMovements);
     const movements = useSelector(selectMovements);
     const balance = useSelector(selectBalance);
+    const balanceColor = balance.charAt(0) === '-' ? 'red' : 'green';
 
     useEffect(() => {
         dispatch(getMovements());
@@ -37,33 +41,15 @@ const MovementsScreen = ({ navigation }) => {
         });
     }, [navigation]);
 
-    const Item = ({ item, textColor, sign }) => (
-        <Text style={[styles.item, textColor]}>{sign + item.amount}</Text>
-    );
-
-    const renderItem = ({ item }) => {
-        const color = item.type === 'ENTRY' ? 'green' : 'red';
-        const sign = item.type === 'ENTRY' ? '' : '-';
-
-        return (
-            <Item
-                item={item}
-                textColor={{ color }}
-                sign={sign}
-            />
-        );
-    };
-
-
     return (
         <View style={styles.container}>
             <Spinner loading={loadingMovements} />
-            <Text style={styles.balance}>{balance}</Text>
-            <FlatList
-                data={movements}
-                renderItem={renderItem}
-                keyExtractor={(item) => item.id}
-            />
+
+            <Text style={[styles.balance, {color: balanceColor}]}>$ {balance}</Text>
+
+            <GestureHandlerRootView style={{ width: '100%', height: '100%' }}>
+                <MovementsList data={movements} />
+            </GestureHandlerRootView>
         </View>
     )
 }
@@ -79,11 +65,5 @@ const styles = StyleSheet.create({
         marginVertical: 10,
         marginHorizontal: 20,
         fontSize: 40,
-    },
-    item: {
-        padding: 10,
-        marginVertical: 4,
-        marginHorizontal: 8,
-        fontSize: 28,
     },
 })
