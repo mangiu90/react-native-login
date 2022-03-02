@@ -32,7 +32,7 @@ export const getBalance = createAsyncThunk('movements/getBalance', movementsServ
 const initialState = {
     loadingMovements: true,
     movements: [],
-    balance: 0
+    balance: '0'
 }
 
 const authSlice = createSlice({
